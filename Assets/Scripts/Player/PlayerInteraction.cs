@@ -8,6 +8,7 @@ public class PlayerInteraction : MonoBehaviour
 
     public GameObject playerInteractionUI;
     [SerializeField] private TextMeshProUGUI interactText;
+    [HideInInspector]public bool isInteracting = false;
 
     void Start()
     {
@@ -16,8 +17,9 @@ public class PlayerInteraction : MonoBehaviour
     }
 
     void Update()
-    {
+    {   
         getInteractUI();
+        
         if (Input.GetKeyDown(KeyCode.E))
         {
             Collider[] colliderArray = Physics.OverlapSphere(transform.position, interactionDistance);
