@@ -11,17 +11,25 @@ public class PlayerHealth : MonoBehaviour
     public float staminaDrainRate = 10f;
     public float staminaRestoreRate = 5f;
     public float staminaRestoreDelay = 2f;
+    [SerializeField] private float waitForDeath = 3f;
     private float restoreTimer;
     public bool isRunning = false;
 
     public Healthbar healthbar;
     private PlayerController playerMovement;
+    [SerializeField] private GameObject deathUI;
+    private DeathMenu deathMenu;
 
+    void Awake()
+    {
+        deathUI.SetActive(false);    
+    }
     void Start()
     {
         playerMovement = GetComponent<PlayerController>();
         healthbar.setMaxHealth(playerHP);
         healthbar.setMaxStamina(maxStamina);
+        deathMenu = deathUI.GetComponent<DeathMenu>();
     }
 
     void Update()
@@ -55,16 +63,19 @@ public class PlayerHealth : MonoBehaviour
         healthbar.setHealth(playerHP);
         if (playerHP <= 0)
         {
-            Die();
+            StartCoroutine(Die());
         }
         Debug.Log("Player took damage. Current HP: " + playerHP);
         // Play damage sound
         // Play damage animation
     }
 
-    public void Die()
+    IEnumerator Die()
     {
+        //play death anim
         Debug.Log("Player died.");
+        yield return new WaitForSeconds(waitForDeath);
+        deathUI.SetActive(true);
     }
 
     public void deductStamina(float staminaDamage)

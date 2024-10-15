@@ -14,15 +14,18 @@ public class DoorWithKeyInteractable : MonoBehaviour ,IInteractable
     public bool isSceneChanger = false;
     private SceneChanger sceneChanger;
     [SerializeField] private string sceneToLoad;
+    private AudioSource audioSource;
 
     // Start is called before the first frame update
     void Start()
     {
         doorKeyAnimator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     public void Interact(Transform interacterTransform)
     {
+        //PLAY AUDIO
         Inventory inventory = interacterTransform.GetComponent<Inventory>();
         sceneChanger = interacterTransform.GetComponent<SceneChanger>();
 

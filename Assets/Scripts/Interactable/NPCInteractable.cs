@@ -15,6 +15,7 @@ public class NPC : MonoBehaviour, IInteractable
     private Inventory inventory;
     [SerializeField]private int waitTime = 10;
     [SerializeField]private int itemWaitTime = 5;
+    private AudioSource audioSource;
 
     void Start()
     {
@@ -25,7 +26,7 @@ public class NPC : MonoBehaviour, IInteractable
             dialogueSystem = player.GetComponent<DialogueSystem>();
             inventory = player.GetComponent<Inventory>();
         }
-
+        audioSource = GetComponent<AudioSource>();
     }
 
 
@@ -36,6 +37,7 @@ public class NPC : MonoBehaviour, IInteractable
 
     public void Interact(Transform interacterTransform)
     {
+        //PLAY AUDIO
         if (dialogueSystem == null)
         {
             Debug.LogWarning("DialogueSystem is not assigned.");

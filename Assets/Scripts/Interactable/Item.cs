@@ -5,9 +5,16 @@ using UnityEngine;
 public class Item : MonoBehaviour, IInteractable
 {
     public string itemName;
+    private AudioSource audioSource;
+
+    void Start()
+    {
+        audioSource = GetComponent<AudioSource>();    
+    }
 
     public void PickUp()
     {
+        //PLAY AUDIO
         gameObject.SetActive(false);
     }
 

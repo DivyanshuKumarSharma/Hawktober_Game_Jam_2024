@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
 {
     public GameObject player;
     public int moveSpeed;
+    public int jumpSpeed = 5;
     public int runSpeed = 30;
     public int walkSpeed = 10;
     [SerializeField]
@@ -21,6 +22,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float jumpHeight = 10f;
     [SerializeField] private Animator animator;
     [SerializeField] private bool isRunning;
+    private float moveX;
+    private float moveZ;
     public bool canRun = false;
 
 
@@ -30,6 +33,8 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         player = GameObject.FindGameObjectWithTag("Player");
         rbody = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
@@ -47,8 +52,8 @@ public class PlayerController : MonoBehaviour
     void move(){
         //move
         if(isGrounded){
-            float moveX = Input.GetAxis("Horizontal"); 
-            float moveZ = Input.GetAxis("Vertical");    
+            moveX = Input.GetAxis("Horizontal"); 
+            moveZ = Input.GetAxis("Vertical");    
 
             //play animations of sprites
             if(moveX > 0){
@@ -96,7 +101,7 @@ public class PlayerController : MonoBehaviour
         //jumnp
         if(isGrounded && Input.GetKeyDown(KeyCode.Space)){
             animator.SetTrigger("jump");
-            rbody.velocity = new Vector3(0, jumpHeight, 0);
+            rbody.velocity = new Vector3(moveX * jumpSpeed, jumpHeight, moveZ * jumpSpeed);
         }
     }
     
