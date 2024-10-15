@@ -67,9 +67,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogues:
-  - Once upon a Time
-  - Once upon a Lime
-  - Once upon a Dime
+  - 'NPC: Oh wait, one more thing.'
+  - 'Player: ? '
+  - 'NPC: Some of the radios have been saying that one of the prisons nearby was
+    destroyed in the storm, and some of the inmates escaped. Please be careful out
+    there.'
+  - 'Player: I see. I will, thank you'
   waitTime: 3
   isStarted: 0
-  currentTask: OPEN THE DOOOOOOOR
+  currentTask: 
