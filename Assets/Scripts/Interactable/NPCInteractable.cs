@@ -1,6 +1,7 @@
 using System.Collections;
 using JetBrains.Annotations;
 using Unity.VisualScripting;
+using Unity.VisualScripting.Dependencies.Sqlite;
 using UnityEngine;
 
 public class NPC : MonoBehaviour, IInteractable
@@ -14,8 +15,10 @@ public class NPC : MonoBehaviour, IInteractable
     public float rotationSpeed = 2f;
     private Inventory inventory;
     [SerializeField]private int waitTime = 10;
-    [SerializeField]private int itemWaitTime = 5;
     private AudioSource audioSource;
+    public GameObject[] objectsToEnable; 
+    private PlayerController playerController;
+    private PlayerInteraction playerInteraction;
 
     void Start()
     {
@@ -24,7 +27,13 @@ public class NPC : MonoBehaviour, IInteractable
         if (player != null)
         {
             dialogueSystem = player.GetComponent<DialogueSystem>();
+            playerController = player.GetComponent<PlayerController>();
             inventory = player.GetComponent<Inventory>();
+            playerInteraction = player.GetComponent<PlayerInteraction>();
+        }
+        foreach (GameObject obj in objectsToEnable)
+        {
+            obj.SetActive(false);
         }
         audioSource = GetComponent<AudioSource>();
     }
@@ -33,6 +42,17 @@ public class NPC : MonoBehaviour, IInteractable
     void Update()
     {
         // Optionally handle any updates needed for NPC here
+        if(dialogueSystem.isDone){
+            playerController.enabled = true; 
+            playerInteraction.isInteracting = false;
+            if(objectsToEnable != null){
+                foreach (GameObject obj in objectsToEnable)
+                {
+                    obj.SetActive(true);
+                }
+                objectsToEnable = null;
+            }
+        }
     }
 
     public void Interact(Transform interacterTransform)
@@ -55,14 +75,15 @@ public class NPC : MonoBehaviour, IInteractable
     }
 
     IEnumerator startDialogues(){
+        playerController.setAnimIdle();
+        playerController.enabled = false; 
         dialogueSystem.isAutoText = true;
         dialogueSystem.StartDialogue(dialogues);
         isStarted = true;
-        yield return new WaitForSeconds(itemWaitTime);
+        yield return new WaitForSeconds(waitTime);
         if(!item.IsUnityNull() && !inventory.HasItem(item.itemName)){
             inventory.AddItem(item);
         }
-        yield return new WaitForSeconds(waitTime);
         isStarted = false;
     }
 

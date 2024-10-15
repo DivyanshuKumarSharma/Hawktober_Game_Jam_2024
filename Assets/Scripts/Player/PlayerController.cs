@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float groundCheckDistance = 0.15f;
     [SerializeField] private float jumpHeight = 10f;
-    [SerializeField] private Animator animator;
+    [HideInInspector] public Animator animator;
     [SerializeField] private bool isRunning;
     private float moveX;
     private float moveZ;
@@ -105,8 +105,11 @@ public class PlayerController : MonoBehaviour
         }
     }
     
-
-    
-
+    public void setAnimIdle(){
+        animator.SetBool("isWalking_left", false);
+        animator.SetBool("isWalking", false);
+        animator.SetBool("isWalking_right", false);
+        animator.SetBool("isWalking_back", false);
+    }
 
 }

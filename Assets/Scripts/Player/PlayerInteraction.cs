@@ -1,4 +1,5 @@
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerInteraction : MonoBehaviour
@@ -8,25 +9,26 @@ public class PlayerInteraction : MonoBehaviour
 
     public GameObject playerInteractionUI;
     [SerializeField] private TextMeshProUGUI interactText;
-    [HideInInspector]public bool isInteracting = false;
+    public bool isInteracting = false;
 
     void Start()
     {
         inventory = GetComponent<Inventory>();
-        playerInteractionUI.SetActive(false);
+        // playerInteractionUI.SetActive(false);
     }
 
     void Update()
     {   
         getInteractUI();
         
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E) && !isInteracting)
         {
             Collider[] colliderArray = Physics.OverlapSphere(transform.position, interactionDistance);
             foreach (Collider collider in colliderArray)
             {
                 if (collider.TryGetComponent(out IInteractable interactable))
                 {
+                    isInteracting = true;
                     interactable.Interact(transform);
                     if (collider.TryGetComponent(out Item item))
                     {
@@ -52,6 +54,14 @@ public class PlayerInteraction : MonoBehaviour
     }
 
     private void getInteractUI(){
+
+        if (isInteracting) 
+        {
+            // If the player is interacting, hide the UI
+            playerInteractionUI.SetActive(false);
+            return;
+        }
+
         Collider[] colliderArray = Physics.OverlapSphere(transform.position, interactionDistance);
         bool interactableFound = false;
 
@@ -62,6 +72,7 @@ public class PlayerInteraction : MonoBehaviour
                 playerInteractionUI.SetActive(true);
                 interactText.text = interactable.getInteractText();
                 interactableFound = true;
+                
             }
 
             if(!interactableFound){
