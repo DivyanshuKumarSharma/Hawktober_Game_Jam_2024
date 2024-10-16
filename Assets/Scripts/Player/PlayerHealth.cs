@@ -11,7 +11,7 @@ public class PlayerHealth : MonoBehaviour
     public float staminaDrainRate = 10f;
     public float staminaRestoreRate = 5f;
     public float staminaRestoreDelay = 2f;
-    [SerializeField] private float waitForDeath = 3f;
+    [SerializeField] public float waitForDeath = 3f;
     private float restoreTimer;
     public bool isRunning = false;
 
@@ -70,7 +70,7 @@ public class PlayerHealth : MonoBehaviour
         // Play damage animation
     }
 
-    IEnumerator Die()
+    public IEnumerator Die()
     {
         //play death anim
         Debug.Log("Player died.");

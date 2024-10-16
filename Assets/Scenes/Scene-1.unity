@@ -133,6 +133,7 @@ GameObject:
   - component: {fileID: 27656908}
   - component: {fileID: 27656907}
   - component: {fileID: 27656906}
+  - component: {fileID: 27656909}
   m_Layer: 3
   m_Name: Terrain
   m_TagString: Untagged
@@ -215,6 +216,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &27656909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 27656905}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: 92dcea598e322524eb232ba2dcfbb97e, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!1001 &134178308
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -226,32 +258,6 @@ PrefabInstance:
     - target: {fileID: 259074564371013734, guid: 7e117ea8fe1d2904ba9a276619482aa3, type: 3}
       propertyPath: m_Name
       value: AreaDialogue_trigger
-      objectReference: {fileID: 0}
-    - target: {fileID: 5718461064445261817, guid: 7e117ea8fe1d2904ba9a276619482aa3, type: 3}
-      propertyPath: currentTask
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 5718461064445261817, guid: 7e117ea8fe1d2904ba9a276619482aa3, type: 3}
-      propertyPath: dialogues.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 5718461064445261817, guid: 7e117ea8fe1d2904ba9a276619482aa3, type: 3}
-      propertyPath: dialogues.Array.data[0]
-      value: 'NPC: Oh wait, one more thing.'
-      objectReference: {fileID: 0}
-    - target: {fileID: 5718461064445261817, guid: 7e117ea8fe1d2904ba9a276619482aa3, type: 3}
-      propertyPath: dialogues.Array.data[1]
-      value: 'Player: ? '
-      objectReference: {fileID: 0}
-    - target: {fileID: 5718461064445261817, guid: 7e117ea8fe1d2904ba9a276619482aa3, type: 3}
-      propertyPath: dialogues.Array.data[2]
-      value: 'NPC: Some of the radios have been saying that one of the prisons nearby
-        was destroyed in the storm, and some of the inmates escaped. Please be careful
-        out there.'
-      objectReference: {fileID: 0}
-    - target: {fileID: 5718461064445261817, guid: 7e117ea8fe1d2904ba9a276619482aa3, type: 3}
-      propertyPath: dialogues.Array.data[3]
-      value: 'Player: I see. I will, thank you'
       objectReference: {fileID: 0}
     - target: {fileID: 5909026331566690970, guid: 7e117ea8fe1d2904ba9a276619482aa3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -315,6 +321,7 @@ GameObject:
   - component: {fileID: 377653308}
   - component: {fileID: 377653306}
   - component: {fileID: 377653305}
+  - component: {fileID: 377653311}
   - component: {fileID: 377653310}
   m_Layer: 0
   m_Name: Killer
@@ -322,7 +329,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!195 &377653305
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -358,6 +365,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   npcStand: {fileID: 924657893}
+  speed: 3
 --- !u!212 &377653308
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -419,7 +427,7 @@ Transform:
   m_GameObject: {fileID: 377653304}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 577.69995, y: 67.54, z: 289.79}
+  m_LocalPosition: {x: 577.69995, y: 67.54, z: 286.46}
   m_LocalScale: {x: 8, y: 8, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -442,10 +450,27 @@ SphereCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Radius: 0.17
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &377653311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 377653304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffdb9ac7f95bfd442ace0340acea04a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slowedSpeed: 1
+  slowDuration: 5
+  catchDistance: 2
+  deathDelay: 2
+  deathAnimationTrigger: Die
 --- !u!4 &924657893 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8466767295715436487, guid: d329ee96efe8ad44da066dd5c1783de9, type: 3}
@@ -559,18 +584,6 @@ PrefabInstance:
     - target: {fileID: 470886, guid: 69b40ef7ee16c834c844b3fa26e0fdda, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 19928108, guid: 69b40ef7ee16c834c844b3fa26e0fdda, type: 3}
-      propertyPath: m_Materials.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 19945500, guid: 69b40ef7ee16c834c844b3fa26e0fdda, type: 3}
-      propertyPath: m_Materials.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 19948124, guid: 69b40ef7ee16c834c844b3fa26e0fdda, type: 3}
-      propertyPath: m_Materials.Array.size
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1319,25 +1332,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 113858880027465241, guid: d329ee96efe8ad44da066dd5c1783de9, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1923933921868828118, guid: d329ee96efe8ad44da066dd5c1783de9, type: 3}
-      propertyPath: isInteracting
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3243328022308850219, guid: d329ee96efe8ad44da066dd5c1783de9, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4794834684697099188, guid: d329ee96efe8ad44da066dd5c1783de9, type: 3}
       propertyPath: m_Name
       value: Player-components
-      objectReference: {fileID: 0}
-    - target: {fileID: 5180539897347896197, guid: d329ee96efe8ad44da066dd5c1783de9, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5403830871340594182, guid: d329ee96efe8ad44da066dd5c1783de9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1377,14 +1374,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5403830871340594182, guid: d329ee96efe8ad44da066dd5c1783de9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5534010048102653956, guid: d329ee96efe8ad44da066dd5c1783de9, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9027904478771398139, guid: d329ee96efe8ad44da066dd5c1783de9, type: 3}
-      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
