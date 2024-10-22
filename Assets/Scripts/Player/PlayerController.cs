@@ -22,8 +22,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float jumpHeight = 10f;
     [HideInInspector] public Animator animator;
     [SerializeField] private bool isRunning;
-    private float moveX;
-    private float moveZ;
+    public float moveX;
+    public float moveZ;
     public bool canRun = false;
 
 

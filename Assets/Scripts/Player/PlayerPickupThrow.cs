@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerPickupThrow : MonoBehaviour
@@ -8,20 +9,19 @@ public class PlayerPickupThrow : MonoBehaviour
 
     private GameObject pickedUpObject = null;  // The object that the player has picked up
     private Rigidbody objectRigidbody;  // The Rigidbody of the picked-up object
+    private PlayerInteraction playerInteraction;
+    private PlayerController  playerController;
+
+    void Start()
+    {
+        playerController = GetComponent<PlayerController>(); 
+       playerInteraction = GetComponent<PlayerInteraction>(); 
+    }
 
     void Update()
     {
-        if (pickedUpObject == null)
+        if (pickedUpObject != null)
         {
-            // Attempt to pick up an object
-            if (Input.GetKeyDown(KeyCode.E))  // Press 'E' to pick up
-            {
-                TryPickupObject();
-            }
-        }
-        else
-        {
-            // If holding an object, allow throwing
             if (Input.GetMouseButtonDown(0))  // Left mouse button to throw
             {
                 ThrowObject();
@@ -29,22 +29,9 @@ public class PlayerPickupThrow : MonoBehaviour
         }
     }
 
-    void TryPickupObject()
+    public void PickupObject(GameObject obj)
     {
-        // Cast a ray from the player to detect nearby objects within range
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, pickupRange))
-        {
-            // Check if the object is pickable (has a Rigidbody)
-            if (hit.collider.GetComponent<Rigidbody>() != null)
-            {
-                PickupObject(hit.collider.gameObject);
-            }
-        }
-    }
-
-    void PickupObject(GameObject obj)
-    {
+        Debug.Log("Pickup Object");
         // Set picked-up object
         pickedUpObject = obj;
         objectRigidbody = pickedUpObject.GetComponent<Rigidbody>();
@@ -53,29 +40,74 @@ public class PlayerPickupThrow : MonoBehaviour
         objectRigidbody.isKinematic = true;
 
         // Attach the object to the player's hand or holding position
+        pickedUpObject.GetComponent<Collider>().enabled = false;
         pickedUpObject.transform.SetParent(handTransform);
         pickedUpObject.transform.localPosition = Vector3.zero;  // Align the object with the hand's position
         pickedUpObject.transform.localRotation = Quaternion.identity;  // Reset rotation
     }
 
-    void ThrowObject()
+void ThrowObject()
+{
+    if (pickedUpObject != null)
     {
-        if (pickedUpObject != null)
+        // Detach the object from the player
+        pickedUpObject.transform.SetParent(null);
+
+        // Enable Rigidbody physics
+        objectRigidbody.isKinematic = false;
+
+        // Apply a throwing force in the appropriate direction
+        Vector3 throwDirection = new Vector3(0, 0.5f, 0); // Default upward push
+        
+        if (playerController.moveX > 0) // Walking right
         {
-            // Detach the object from the player
-            pickedUpObject.transform.SetParent(null);
+            Debug.Log("Moving right");
+            throwDirection = transform.right + new Vector3(0, 0.5f, 0); // Right with an upward push
+        }
+        else if (playerController.moveX < 0) // Walking left
+        {
+            Debug.Log("Moving left");
+            throwDirection = -transform.right + new Vector3(0, 0.5f, 0); // Left with an upward push
+        }
 
-            // Enable Rigidbody physics
-            objectRigidbody.isKinematic = false;
+        // Ignore collision between the player and the object temporarily
+        Collider playerCollider = GetComponent<Collider>();
+        Collider objectCollider = pickedUpObject.GetComponent<Collider>();
+        
+        if (playerCollider != null && objectCollider != null)
+        {
+            Physics.IgnoreCollision(playerCollider, objectCollider, true);
+        }
 
-            // Apply a throwing force
-            objectRigidbody.AddForce(transform.forward * throwForce, ForceMode.Impulse);
+        // Apply the throw force
+        objectRigidbody.AddForce(throwDirection.normalized * throwForce, ForceMode.Impulse);
 
-            // Clear the picked-up object reference
-            pickedUpObject = null;
-            objectRigidbody = null;
+        // Re-enable the collider after the throw
+        if (objectCollider != null)
+        {
+            objectCollider.enabled = true;
+        }
+
+        // Re-enable collision between player and object after a delay
+        StartCoroutine(ReEnableCollision(playerCollider, objectCollider, 0.5f));
+
+        // Clear the picked-up object reference
+        pickedUpObject = null;
+        objectRigidbody = null;
+        playerInteraction.isInteracting = false;
+    }
+}
+
+    private IEnumerator ReEnableCollision(Collider playerCollider, Collider objectCollider, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        if (playerCollider != null && objectCollider != null)
+        {
+            Physics.IgnoreCollision(playerCollider, objectCollider, false);
         }
     }
+
 
     private void OnDrawGizmosSelected()
     {

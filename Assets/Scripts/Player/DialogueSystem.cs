@@ -12,12 +12,14 @@ public class DialogueSystem : MonoBehaviour
     public bool isAutoText = false;
     [HideInInspector] public bool alreadyStarted = false;
     [SerializeField] private int waitTime = 2;
-    
+    private PlayerInteraction playerInteraction;
 
     void Start() 
     {
         sentences = new Queue<string>();
         dialoguePanel.SetActive(false); 
+
+         playerInteraction = FindObjectOfType<PlayerInteraction>();
     }
 
     public void StartDialogue(string[] dialogue)
@@ -40,16 +42,17 @@ public class DialogueSystem : MonoBehaviour
         }
     }
 
-    IEnumerator displayAuto(){
-
-        while(sentences.Count != 0){
+    IEnumerator displayAuto()
+    {
+        while (sentences.Count != 0)
+        {
             string sentence = sentences.Dequeue();
             dialogueText.text = sentence;
             yield return new WaitForSeconds(waitTime);
         }
 
+        // End dialogue when all sentences are shown
         EndDialogue();
-        isAutoText = false;
     }
 
     public void DisplayNextSentence()
@@ -70,6 +73,12 @@ public class DialogueSystem : MonoBehaviour
         dialogueText.text = "";
         dialoguePanel.SetActive(false);
         alreadyStarted = false;
+
+        // Reset interaction state in PlayerInteraction
+        if (playerInteraction != null)
+        {
+            playerInteraction.isInteracting = false; // Allow player to interact again
+        }
     }
 
 }

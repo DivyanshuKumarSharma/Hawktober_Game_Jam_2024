@@ -1,9 +1,18 @@
 using UnityEngine;
 
-public class Throwable : MonoBehaviour
+public class Throwable : MonoBehaviour, IInteractable
 {
     public float freezeDuration = 2f;  // How long the killer is frozen
     public bool shouldFreeze = false;  // Does this throwable freeze the killer?
+    public string objectName;
+    private PlayerPickupThrow playerPickupThrow;
+
+    public void Interact(Transform interacterTransform)
+    {
+        GameObject player = interacterTransform.gameObject;
+        playerPickupThrow = player.GetComponent<PlayerPickupThrow>();
+        playerPickupThrow.PickupObject(this.gameObject);
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -24,5 +33,15 @@ public class Throwable : MonoBehaviour
             // Destroy the throwable after it hits the killer
             Destroy(gameObject);
         }
+    }
+
+    public void EndInteraction()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public string getInteractText()
+    {
+        return "Pick up " + objectName;
     }
 }

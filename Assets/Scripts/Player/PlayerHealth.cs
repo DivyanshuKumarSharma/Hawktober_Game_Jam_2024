@@ -19,6 +19,7 @@ public class PlayerHealth : MonoBehaviour
     private PlayerController playerMovement;
     [SerializeField] private GameObject deathUI;
     private DeathMenu deathMenu;
+    private Animator animator;
 
     void Awake()
     {
@@ -27,6 +28,7 @@ public class PlayerHealth : MonoBehaviour
     void Start()
     {
         playerMovement = GetComponent<PlayerController>();
+        animator = GetComponent<Animator>();
         healthbar.setMaxHealth(playerHP);
         healthbar.setMaxStamina(maxStamina);
         deathMenu = deathUI.GetComponent<DeathMenu>();
@@ -72,8 +74,11 @@ public class PlayerHealth : MonoBehaviour
 
     public IEnumerator Die()
     {
+        playerMovement.setAnimIdle();
         //play death anim
+        animator.SetTrigger("Death");
         Debug.Log("Player died.");
+        playerMovement.enabled = false;
         yield return new WaitForSeconds(waitForDeath);
         deathUI.SetActive(true);
     }

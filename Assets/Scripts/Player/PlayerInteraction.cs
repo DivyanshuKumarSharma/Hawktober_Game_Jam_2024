@@ -28,17 +28,25 @@ public class PlayerInteraction : MonoBehaviour
             {
                 if (collider.TryGetComponent(out IInteractable interactable))
                 {
-                    isInteracting = true;
-                    interactable.Interact(transform);
+                    isInteracting = true; // Start interaction
+                    interactable.Interact(transform); // Trigger dialogue or interaction
+
                     if (collider.TryGetComponent(out Item item))
                     {
                         inventory.AddItem(item);
                         Debug.Log("Picked up: " + item.itemName);
                     }
+                    if (collider.TryGetComponent(out Throwable throwable))
+                    {
+                        Debug.Log("Picked up throwable: " + throwable.objectName);
+                    }
+
+                    // Interaction ends automatically in DialogueSystem now, no need to reset isInteracting here.
                 }
             }
         }
     }
+
 
     public IInteractable GetInteractable()
     {
@@ -72,7 +80,7 @@ public class PlayerInteraction : MonoBehaviour
                 playerInteractionUI.SetActive(true);
                 interactText.text = interactable.getInteractText();
                 interactableFound = true;
-                
+
             }
 
             if(!interactableFound){
