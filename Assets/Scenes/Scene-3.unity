@@ -1556,6 +1556,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7120466372865734496, guid: d329ee96efe8ad44da066dd5c1783de9, type: 3}
+      propertyPath: crouchSpeed
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 9027904478771398139, guid: d329ee96efe8ad44da066dd5c1783de9, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
