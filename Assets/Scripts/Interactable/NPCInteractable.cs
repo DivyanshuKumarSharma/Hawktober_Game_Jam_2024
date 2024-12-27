@@ -19,11 +19,14 @@ public class NPC : MonoBehaviour, IInteractable
     public GameObject[] objectsToEnable; 
     private PlayerController playerController;
     private PlayerInteraction playerInteraction;
+    private Animator animator;
 
     void Start()
     {
         // Ensure the DialogueSystem is set up properly
         GameObject player = GameObject.FindWithTag("Player");
+        animator = GetComponent<Animator>();
+        animator.StartPlayback();
         if (player != null)
         {
             dialogueSystem = player.GetComponent<DialogueSystem>();
